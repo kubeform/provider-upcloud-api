@@ -3,7 +3,7 @@
 
 # provider-upcloud-api
 
-Kubeform CRDs for [Terraform Upcloud Provider](https://github.com/upcloud/terraform-provider-upcloud)
+Kubeform CRDs for [Terraform UpCloud Provider](https://github.com/UpCloudLtd/terraform-provider-upcloud)
 
 ## Installation
 
