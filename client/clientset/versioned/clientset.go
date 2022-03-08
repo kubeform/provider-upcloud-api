@@ -23,6 +23,7 @@ import (
 
 	firewallv1alpha1 "kubeform.dev/provider-upcloud-api/client/clientset/versioned/typed/firewall/v1alpha1"
 	floatingv1alpha1 "kubeform.dev/provider-upcloud-api/client/clientset/versioned/typed/floating/v1alpha1"
+	managedv1alpha1 "kubeform.dev/provider-upcloud-api/client/clientset/versioned/typed/managed/v1alpha1"
 	networkv1alpha1 "kubeform.dev/provider-upcloud-api/client/clientset/versioned/typed/network/v1alpha1"
 	objectv1alpha1 "kubeform.dev/provider-upcloud-api/client/clientset/versioned/typed/object/v1alpha1"
 	routerv1alpha1 "kubeform.dev/provider-upcloud-api/client/clientset/versioned/typed/router/v1alpha1"
@@ -39,6 +40,7 @@ type Interface interface {
 	Discovery() discovery.DiscoveryInterface
 	FirewallV1alpha1() firewallv1alpha1.FirewallV1alpha1Interface
 	FloatingV1alpha1() floatingv1alpha1.FloatingV1alpha1Interface
+	ManagedV1alpha1() managedv1alpha1.ManagedV1alpha1Interface
 	NetworkV1alpha1() networkv1alpha1.NetworkV1alpha1Interface
 	ObjectV1alpha1() objectv1alpha1.ObjectV1alpha1Interface
 	RouterV1alpha1() routerv1alpha1.RouterV1alpha1Interface
@@ -53,6 +55,7 @@ type Clientset struct {
 	*discovery.DiscoveryClient
 	firewallV1alpha1 *firewallv1alpha1.FirewallV1alpha1Client
 	floatingV1alpha1 *floatingv1alpha1.FloatingV1alpha1Client
+	managedV1alpha1  *managedv1alpha1.ManagedV1alpha1Client
 	networkV1alpha1  *networkv1alpha1.NetworkV1alpha1Client
 	objectV1alpha1   *objectv1alpha1.ObjectV1alpha1Client
 	routerV1alpha1   *routerv1alpha1.RouterV1alpha1Client
@@ -69,6 +72,11 @@ func (c *Clientset) FirewallV1alpha1() firewallv1alpha1.FirewallV1alpha1Interfac
 // FloatingV1alpha1 retrieves the FloatingV1alpha1Client
 func (c *Clientset) FloatingV1alpha1() floatingv1alpha1.FloatingV1alpha1Interface {
 	return c.floatingV1alpha1
+}
+
+// ManagedV1alpha1 retrieves the ManagedV1alpha1Client
+func (c *Clientset) ManagedV1alpha1() managedv1alpha1.ManagedV1alpha1Interface {
+	return c.managedV1alpha1
 }
 
 // NetworkV1alpha1 retrieves the NetworkV1alpha1Client
@@ -130,6 +138,10 @@ func NewForConfig(c *rest.Config) (*Clientset, error) {
 	if err != nil {
 		return nil, err
 	}
+	cs.managedV1alpha1, err = managedv1alpha1.NewForConfig(&configShallowCopy)
+	if err != nil {
+		return nil, err
+	}
 	cs.networkV1alpha1, err = networkv1alpha1.NewForConfig(&configShallowCopy)
 	if err != nil {
 		return nil, err
@@ -168,6 +180,7 @@ func NewForConfigOrDie(c *rest.Config) *Clientset {
 	var cs Clientset
 	cs.firewallV1alpha1 = firewallv1alpha1.NewForConfigOrDie(c)
 	cs.floatingV1alpha1 = floatingv1alpha1.NewForConfigOrDie(c)
+	cs.managedV1alpha1 = managedv1alpha1.NewForConfigOrDie(c)
 	cs.networkV1alpha1 = networkv1alpha1.NewForConfigOrDie(c)
 	cs.objectV1alpha1 = objectv1alpha1.NewForConfigOrDie(c)
 	cs.routerV1alpha1 = routerv1alpha1.NewForConfigOrDie(c)
@@ -184,6 +197,7 @@ func New(c rest.Interface) *Clientset {
 	var cs Clientset
 	cs.firewallV1alpha1 = firewallv1alpha1.New(c)
 	cs.floatingV1alpha1 = floatingv1alpha1.New(c)
+	cs.managedV1alpha1 = managedv1alpha1.New(c)
 	cs.networkV1alpha1 = networkv1alpha1.New(c)
 	cs.objectV1alpha1 = objectv1alpha1.New(c)
 	cs.routerV1alpha1 = routerv1alpha1.New(c)

@@ -27,6 +27,7 @@ import (
 	firewall "kubeform.dev/provider-upcloud-api/client/informers/externalversions/firewall"
 	floating "kubeform.dev/provider-upcloud-api/client/informers/externalversions/floating"
 	internalinterfaces "kubeform.dev/provider-upcloud-api/client/informers/externalversions/internalinterfaces"
+	managed "kubeform.dev/provider-upcloud-api/client/informers/externalversions/managed"
 	network "kubeform.dev/provider-upcloud-api/client/informers/externalversions/network"
 	object "kubeform.dev/provider-upcloud-api/client/informers/externalversions/object"
 	router "kubeform.dev/provider-upcloud-api/client/informers/externalversions/router"
@@ -182,6 +183,7 @@ type SharedInformerFactory interface {
 
 	Firewall() firewall.Interface
 	Floating() floating.Interface
+	Managed() managed.Interface
 	Network() network.Interface
 	Object() object.Interface
 	Router() router.Interface
@@ -196,6 +198,10 @@ func (f *sharedInformerFactory) Firewall() firewall.Interface {
 
 func (f *sharedInformerFactory) Floating() floating.Interface {
 	return floating.New(f, f.namespace, f.tweakListOptions)
+}
+
+func (f *sharedInformerFactory) Managed() managed.Interface {
+	return managed.New(f, f.namespace, f.tweakListOptions)
 }
 
 func (f *sharedInformerFactory) Network() network.Interface {

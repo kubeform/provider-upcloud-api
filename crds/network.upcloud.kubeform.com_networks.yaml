@@ -93,18 +93,6 @@ spec:
                   router:
                     description: The UUID of a router
                     type: string
-                  servers:
-                    description: A list of attached servers
-                    items:
-                      properties:
-                        ID:
-                          description: The UUID of the server
-                          type: string
-                        title:
-                          description: The short description of the server
-                          type: string
-                      type: object
-                    type: array
                   type:
                     description: The network type
                     type: string
@@ -154,18 +142,6 @@ spec:
                   router:
                     description: The UUID of a router
                     type: string
-                  servers:
-                    description: A list of attached servers
-                    items:
-                      properties:
-                        ID:
-                          description: The UUID of the server
-                          type: string
-                        title:
-                          description: The short description of the server
-                          type: string
-                      type: object
-                    type: array
                   type:
                     description: The network type
                     type: string
