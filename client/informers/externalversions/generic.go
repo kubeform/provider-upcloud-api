@@ -23,6 +23,7 @@ import (
 
 	v1alpha1 "kubeform.dev/provider-upcloud-api/apis/firewall/v1alpha1"
 	floatingv1alpha1 "kubeform.dev/provider-upcloud-api/apis/floating/v1alpha1"
+	managedv1alpha1 "kubeform.dev/provider-upcloud-api/apis/managed/v1alpha1"
 	networkv1alpha1 "kubeform.dev/provider-upcloud-api/apis/network/v1alpha1"
 	objectv1alpha1 "kubeform.dev/provider-upcloud-api/apis/object/v1alpha1"
 	routerv1alpha1 "kubeform.dev/provider-upcloud-api/apis/router/v1alpha1"
@@ -67,6 +68,16 @@ func (f *sharedInformerFactory) ForResource(resource schema.GroupVersionResource
 		// Group=floating.upcloud.kubeform.com, Version=v1alpha1
 	case floatingv1alpha1.SchemeGroupVersion.WithResource("ipaddresses"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Floating().V1alpha1().IpAddresses().Informer()}, nil
+
+		// Group=managed.upcloud.kubeform.com, Version=v1alpha1
+	case managedv1alpha1.SchemeGroupVersion.WithResource("databaselogicaldatabases"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Managed().V1alpha1().DatabaseLogicalDatabases().Informer()}, nil
+	case managedv1alpha1.SchemeGroupVersion.WithResource("databasemysqls"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Managed().V1alpha1().DatabaseMysqls().Informer()}, nil
+	case managedv1alpha1.SchemeGroupVersion.WithResource("databasepostgresqls"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Managed().V1alpha1().DatabasePostgresqls().Informer()}, nil
+	case managedv1alpha1.SchemeGroupVersion.WithResource("databaseusers"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Managed().V1alpha1().DatabaseUsers().Informer()}, nil
 
 		// Group=network.upcloud.kubeform.com, Version=v1alpha1
 	case networkv1alpha1.SchemeGroupVersion.WithResource("networks"):

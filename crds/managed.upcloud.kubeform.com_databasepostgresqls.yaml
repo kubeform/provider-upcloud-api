@@ -1,0 +1,976 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  creationTimestamp: null
+  labels:
+    app.kubernetes.io/name: upcloud.kubeform.com
+    app.kubernetes.io/part-of: kubeform.com
+  name: databasepostgresqls.managed.upcloud.kubeform.com
+spec:
+  group: managed.upcloud.kubeform.com
+  names:
+    kind: DatabasePostgresql
+    listKind: DatabasePostgresqlList
+    plural: databasepostgresqls
+    singular: databasepostgresql
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.phase
+      name: Phase
+      type: string
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            properties:
+              backendRef:
+                description: LocalObjectReference contains enough information to let
+                  you locate the referenced object inside the same namespace.
+                properties:
+                  name:
+                    description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                      TODO: Add other useful fields. apiVersion, kind, uid?'
+                    type: string
+                type: object
+              providerRef:
+                description: LocalObjectReference contains enough information to let
+                  you locate the referenced object inside the same namespace.
+                properties:
+                  name:
+                    description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                      TODO: Add other useful fields. apiVersion, kind, uid?'
+                    type: string
+                type: object
+              resource:
+                properties:
+                  components:
+                    description: Service component information
+                    items:
+                      properties:
+                        component:
+                          description: Type of the component
+                          type: string
+                        host:
+                          description: Hostname of the component
+                          type: string
+                        port:
+                          description: Port number of the component
+                          format: int64
+                          type: integer
+                        route:
+                          description: Component network route type
+                          type: string
+                        usage:
+                          description: Usage of the component
+                          type: string
+                      type: object
+                    type: array
+                  id:
+                    type: string
+                  maintenanceWindowDow:
+                    description: Maintenance window day of week. Lower case weekday
+                      name (monday, tuesday, ...)
+                    type: string
+                  maintenanceWindowTime:
+                    description: Maintenance window UTC time in hh:mm:ss format
+                    type: string
+                  name:
+                    description: Name of the service. The name is used as a prefix
+                      for the logical hostname. Must be unique within an account
+                    type: string
+                  nodeStates:
+                    description: Information about nodes providing the managed service
+                    items:
+                      properties:
+                        name:
+                          description: Name plus a node iteration
+                          type: string
+                        role:
+                          description: Role of the node
+                          type: string
+                        state:
+                          description: State of the node
+                          type: string
+                      type: object
+                    type: array
+                  plan:
+                    description: Service plan to use. This determines how much resources
+                      the instance will have
+                    type: string
+                  powered:
+                    description: The administrative power state of the service
+                    type: boolean
+                  primaryDatabase:
+                    description: Primary database name
+                    type: string
+                  properties:
+                    description: Database Engine properties for PostgreSQL
+                    properties:
+                      adminUsername:
+                        description: Custom username for admin user. This must be
+                          set only when a new service is being created.
+                        type: string
+                      automaticUtilityNetworkIPFilter:
+                        description: Automatic utility network IP Filter
+                        type: boolean
+                      autovacuumAnalyzeScaleFactor:
+                        description: autovacuum_analyze_scale_factor
+                        format: double
+                        type: number
+                      autovacuumAnalyzeThreshold:
+                        description: autovacuum_analyze_threshold
+                        format: int64
+                        type: integer
+                      autovacuumFreezeMaxAge:
+                        description: autovacuum_freeze_max_age
+                        format: int64
+                        type: integer
+                      autovacuumMaxWorkers:
+                        description: autovacuum_max_workers
+                        format: int64
+                        type: integer
+                      autovacuumNaptime:
+                        description: autovacuum_naptime
+                        format: int64
+                        type: integer
+                      autovacuumVacuumCostDelay:
+                        description: autovacuum_vacuum_cost_delay
+                        format: int64
+                        type: integer
+                      autovacuumVacuumCostLimit:
+                        description: autovacuum_vacuum_cost_limit
+                        format: int64
+                        type: integer
+                      autovacuumVacuumScaleFactor:
+                        description: autovacuum_vacuum_scale_factor
+                        format: double
+                        type: number
+                      autovacuumVacuumThreshold:
+                        description: autovacuum_vacuum_threshold
+                        format: int64
+                        type: integer
+                      backupHour:
+                        description: The hour of day (in UTC) when backup for the
+                          service is started. New backup is only started if previous
+                          backup has already completed.
+                        format: int64
+                        type: integer
+                      backupMinute:
+                        description: The minute of an hour when backup for the service
+                          is started. New backup is only started if previous backup
+                          has already completed.
+                        format: int64
+                        type: integer
+                      bgwriterDelay:
+                        description: bgwriter_delay
+                        format: int64
+                        type: integer
+                      bgwriterFlushAfter:
+                        description: bgwriter_flush_after
+                        format: int64
+                        type: integer
+                      bgwriterLruMaxpages:
+                        description: bgwriter_lru_maxpages
+                        format: int64
+                        type: integer
+                      bgwriterLruMultiplier:
+                        description: bgwriter_lru_multiplier
+                        format: double
+                        type: number
+                      deadlockTimeout:
+                        description: deadlock_timeout
+                        format: int64
+                        type: integer
+                      idleInTransactionSessionTimeout:
+                        description: idle_in_transaction_session_timeout
+                        format: int64
+                        type: integer
+                      ipFilter:
+                        description: IP filter
+                        items:
+                          type: string
+                        maxItems: 1024
+                        type: array
+                      jit:
+                        description: jit
+                        type: boolean
+                      logAutovacuumMinDuration:
+                        description: log_autovacuum_min_duration
+                        format: int64
+                        type: integer
+                      logErrorVerbosity:
+                        description: log_error_verbosity
+                        type: string
+                      logLinePrefix:
+                        description: log_line_prefix
+                        type: string
+                      logMinDurationStatement:
+                        description: log_min_duration_statement
+                        format: int64
+                        type: integer
+                      maxFilesPerProcess:
+                        description: max_files_per_process
+                        format: int64
+                        type: integer
+                      maxLocksPerTransaction:
+                        description: max_locks_per_transaction
+                        format: int64
+                        type: integer
+                      maxLogicalReplicationWorkers:
+                        description: max_logical_replication_workers
+                        format: int64
+                        type: integer
+                      maxParallelWorkers:
+                        description: max_parallel_workers
+                        format: int64
+                        type: integer
+                      maxParallelWorkersPerGather:
+                        description: max_parallel_workers_per_gather
+                        format: int64
+                        type: integer
+                      maxPredLocksPerTransaction:
+                        description: max_pred_locks_per_transaction
+                        format: int64
+                        type: integer
+                      maxPreparedTransactions:
+                        description: max_prepared_transactions
+                        format: int64
+                        type: integer
+                      maxReplicationSlots:
+                        description: max_replication_slots
+                        format: int64
+                        type: integer
+                      maxStackDepth:
+                        description: max_stack_depth
+                        format: int64
+                        type: integer
+                      maxStandbyArchiveDelay:
+                        description: max_standby_archive_delay
+                        format: int64
+                        type: integer
+                      maxStandbyStreamingDelay:
+                        description: max_standby_streaming_delay
+                        format: int64
+                        type: integer
+                      maxWalSenders:
+                        description: max_wal_senders
+                        format: int64
+                        type: integer
+                      maxWorkerProcesses:
+                        description: max_worker_processes
+                        format: int64
+                        type: integer
+                      migration:
+                        description: Migrate data from existing server
+                        properties:
+                          dbname:
+                            description: Database name for bootstrapping the initial
+                              connection
+                            type: string
+                          host:
+                            description: Hostname or IP address of the server where
+                              to migrate data from
+                            type: string
+                          ignoreDbs:
+                            description: Comma-separated list of databases, which
+                              should be ignored during migration (supported by MySQL
+                              only at the moment)
+                            type: string
+                          port:
+                            description: Port number of the server where to migrate
+                              data from
+                            format: int64
+                            type: integer
+                          ssl:
+                            description: The server where to migrate data from is
+                              secured with SSL
+                            type: boolean
+                          username:
+                            description: User name for authentication with the server
+                              where to migrate data from
+                            type: string
+                        type: object
+                      pgPartmanBgwInterval:
+                        description: pg_partman_bgw.interval
+                        format: int64
+                        type: integer
+                      pgPartmanBgwRole:
+                        description: pg_partman_bgw.role
+                        type: string
+                      pgReadReplica:
+                        description: Should the service which is being forked be a
+                          read replica
+                        type: boolean
+                      pgServiceToForkFrom:
+                        description: Name of the PG Service from which to fork (deprecated,
+                          use service_to_fork_from). This has effect only when a new
+                          service is being created.
+                        type: string
+                      pgStatStatementsTrack:
+                        description: pg_stat_statements.track
+                        type: string
+                      pgbouncer:
+                        description: PGBouncer connection pooling settings
+                        properties:
+                          autodbIdleTimeout:
+                            description: If the automatically created database pools
+                              have been unused this many seconds, they are freed.
+                              If 0 then timeout is disabled. [seconds]
+                            format: int64
+                            type: integer
+                          autodbMaxDbConnections:
+                            description: Do not allow more than this many server connections
+                              per database (regardless of user). Setting it to 0 means
+                              unlimited.
+                            format: int64
+                            type: integer
+                          autodbPoolMode:
+                            description: PGBouncer pool mode
+                            type: string
+                          autodbPoolSize:
+                            description: If non-zero then create automatically a pool
+                              of that size per user when a pool doesn't exist.
+                            format: int64
+                            type: integer
+                          ignoreStartupParameters:
+                            description: List of parameters to ignore when given in
+                              startup packet
+                            items:
+                              type: string
+                            maxItems: 32
+                            type: array
+                          minPoolSize:
+                            description: Add more server connections to pool if below
+                              this number. Improves behavior when usual load comes
+                              suddenly back after period of total inactivity. The
+                              value is effectively capped at the pool size.
+                            format: int64
+                            type: integer
+                          serverIdleTimeout:
+                            description: If a server connection has been idle more
+                              than this many seconds it will be dropped. If 0 then
+                              timeout is disabled. [seconds]
+                            format: int64
+                            type: integer
+                          serverLifetime:
+                            description: The pooler will close an unused server connection
+                              that has been connected longer than this. [seconds]
+                            format: int64
+                            type: integer
+                          serverResetQueryAlways:
+                            description: Run server_reset_query (DISCARD ALL) in all
+                              pooling modes
+                            type: boolean
+                        type: object
+                      pglookout:
+                        description: PGLookout settings
+                        properties:
+                          maxFailoverReplicationTimeLag:
+                            description: max_failover_replication_time_lag
+                            format: int64
+                            type: integer
+                        type: object
+                      publicAccess:
+                        description: Public Access
+                        type: boolean
+                      sharedBuffersPercentage:
+                        description: shared_buffers_percentage
+                        format: double
+                        type: number
+                      synchronousReplication:
+                        description: Synchronous replication type. Note that the service
+                          plan also needs to support synchronous replication.
+                        type: string
+                      tempFileLimit:
+                        description: temp_file_limit
+                        format: int64
+                        type: integer
+                      timescaledb:
+                        description: TimescaleDB extension configuration values
+                        properties:
+                          maxBackgroundWorkers:
+                            description: timescaledb.max_background_workers
+                            format: int64
+                            type: integer
+                        type: object
+                      timezone:
+                        description: timezone
+                        type: string
+                      trackActivityQuerySize:
+                        description: track_activity_query_size
+                        format: int64
+                        type: integer
+                      trackCommitTimestamp:
+                        description: track_commit_timestamp
+                        type: string
+                      trackFunctions:
+                        description: track_functions
+                        type: string
+                      trackIoTiming:
+                        description: track_io_timing
+                        type: string
+                      variant:
+                        description: Variant of the PostgreSQL service, may affect
+                          the features that are exposed by default
+                        type: string
+                      version:
+                        description: PostgreSQL major version
+                        type: string
+                      walSenderTimeout:
+                        description: wal_sender_timeout
+                        format: int64
+                        type: integer
+                      walWriterDelay:
+                        description: wal_writer_delay
+                        format: int64
+                        type: integer
+                      workMem:
+                        description: work_mem
+                        format: int64
+                        type: integer
+                    type: object
+                  serviceHost:
+                    description: Hostname to the service instance
+                    type: string
+                  servicePort:
+                    description: Port to the service instance
+                    type: string
+                  serviceUsername:
+                    description: Primary username to the service instance
+                    type: string
+                  sslmode:
+                    description: SSL Connection Mode for PostgreSQL
+                    type: string
+                  state:
+                    description: State of the service
+                    type: string
+                  title:
+                    description: Title of a managed database instance
+                    type: string
+                  type:
+                    description: Type of the service
+                    type: string
+                  zone:
+                    description: Zone where the instance resides
+                    type: string
+                required:
+                - name
+                - plan
+                - zone
+                type: object
+              secretRef:
+                description: LocalObjectReference contains enough information to let
+                  you locate the referenced object inside the same namespace.
+                properties:
+                  name:
+                    description: 'Name of the referent. More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names
+                      TODO: Add other useful fields. apiVersion, kind, uid?'
+                    type: string
+                type: object
+              state:
+                properties:
+                  components:
+                    description: Service component information
+                    items:
+                      properties:
+                        component:
+                          description: Type of the component
+                          type: string
+                        host:
+                          description: Hostname of the component
+                          type: string
+                        port:
+                          description: Port number of the component
+                          format: int64
+                          type: integer
+                        route:
+                          description: Component network route type
+                          type: string
+                        usage:
+                          description: Usage of the component
+                          type: string
+                      type: object
+                    type: array
+                  id:
+                    type: string
+                  maintenanceWindowDow:
+                    description: Maintenance window day of week. Lower case weekday
+                      name (monday, tuesday, ...)
+                    type: string
+                  maintenanceWindowTime:
+                    description: Maintenance window UTC time in hh:mm:ss format
+                    type: string
+                  name:
+                    description: Name of the service. The name is used as a prefix
+                      for the logical hostname. Must be unique within an account
+                    type: string
+                  nodeStates:
+                    description: Information about nodes providing the managed service
+                    items:
+                      properties:
+                        name:
+                          description: Name plus a node iteration
+                          type: string
+                        role:
+                          description: Role of the node
+                          type: string
+                        state:
+                          description: State of the node
+                          type: string
+                      type: object
+                    type: array
+                  plan:
+                    description: Service plan to use. This determines how much resources
+                      the instance will have
+                    type: string
+                  powered:
+                    description: The administrative power state of the service
+                    type: boolean
+                  primaryDatabase:
+                    description: Primary database name
+                    type: string
+                  properties:
+                    description: Database Engine properties for PostgreSQL
+                    properties:
+                      adminUsername:
+                        description: Custom username for admin user. This must be
+                          set only when a new service is being created.
+                        type: string
+                      automaticUtilityNetworkIPFilter:
+                        description: Automatic utility network IP Filter
+                        type: boolean
+                      autovacuumAnalyzeScaleFactor:
+                        description: autovacuum_analyze_scale_factor
+                        format: double
+                        type: number
+                      autovacuumAnalyzeThreshold:
+                        description: autovacuum_analyze_threshold
+                        format: int64
+                        type: integer
+                      autovacuumFreezeMaxAge:
+                        description: autovacuum_freeze_max_age
+                        format: int64
+                        type: integer
+                      autovacuumMaxWorkers:
+                        description: autovacuum_max_workers
+                        format: int64
+                        type: integer
+                      autovacuumNaptime:
+                        description: autovacuum_naptime
+                        format: int64
+                        type: integer
+                      autovacuumVacuumCostDelay:
+                        description: autovacuum_vacuum_cost_delay
+                        format: int64
+                        type: integer
+                      autovacuumVacuumCostLimit:
+                        description: autovacuum_vacuum_cost_limit
+                        format: int64
+                        type: integer
+                      autovacuumVacuumScaleFactor:
+                        description: autovacuum_vacuum_scale_factor
+                        format: double
+                        type: number
+                      autovacuumVacuumThreshold:
+                        description: autovacuum_vacuum_threshold
+                        format: int64
+                        type: integer
+                      backupHour:
+                        description: The hour of day (in UTC) when backup for the
+                          service is started. New backup is only started if previous
+                          backup has already completed.
+                        format: int64
+                        type: integer
+                      backupMinute:
+                        description: The minute of an hour when backup for the service
+                          is started. New backup is only started if previous backup
+                          has already completed.
+                        format: int64
+                        type: integer
+                      bgwriterDelay:
+                        description: bgwriter_delay
+                        format: int64
+                        type: integer
+                      bgwriterFlushAfter:
+                        description: bgwriter_flush_after
+                        format: int64
+                        type: integer
+                      bgwriterLruMaxpages:
+                        description: bgwriter_lru_maxpages
+                        format: int64
+                        type: integer
+                      bgwriterLruMultiplier:
+                        description: bgwriter_lru_multiplier
+                        format: double
+                        type: number
+                      deadlockTimeout:
+                        description: deadlock_timeout
+                        format: int64
+                        type: integer
+                      idleInTransactionSessionTimeout:
+                        description: idle_in_transaction_session_timeout
+                        format: int64
+                        type: integer
+                      ipFilter:
+                        description: IP filter
+                        items:
+                          type: string
+                        maxItems: 1024
+                        type: array
+                      jit:
+                        description: jit
+                        type: boolean
+                      logAutovacuumMinDuration:
+                        description: log_autovacuum_min_duration
+                        format: int64
+                        type: integer
+                      logErrorVerbosity:
+                        description: log_error_verbosity
+                        type: string
+                      logLinePrefix:
+                        description: log_line_prefix
+                        type: string
+                      logMinDurationStatement:
+                        description: log_min_duration_statement
+                        format: int64
+                        type: integer
+                      maxFilesPerProcess:
+                        description: max_files_per_process
+                        format: int64
+                        type: integer
+                      maxLocksPerTransaction:
+                        description: max_locks_per_transaction
+                        format: int64
+                        type: integer
+                      maxLogicalReplicationWorkers:
+                        description: max_logical_replication_workers
+                        format: int64
+                        type: integer
+                      maxParallelWorkers:
+                        description: max_parallel_workers
+                        format: int64
+                        type: integer
+                      maxParallelWorkersPerGather:
+                        description: max_parallel_workers_per_gather
+                        format: int64
+                        type: integer
+                      maxPredLocksPerTransaction:
+                        description: max_pred_locks_per_transaction
+                        format: int64
+                        type: integer
+                      maxPreparedTransactions:
+                        description: max_prepared_transactions
+                        format: int64
+                        type: integer
+                      maxReplicationSlots:
+                        description: max_replication_slots
+                        format: int64
+                        type: integer
+                      maxStackDepth:
+                        description: max_stack_depth
+                        format: int64
+                        type: integer
+                      maxStandbyArchiveDelay:
+                        description: max_standby_archive_delay
+                        format: int64
+                        type: integer
+                      maxStandbyStreamingDelay:
+                        description: max_standby_streaming_delay
+                        format: int64
+                        type: integer
+                      maxWalSenders:
+                        description: max_wal_senders
+                        format: int64
+                        type: integer
+                      maxWorkerProcesses:
+                        description: max_worker_processes
+                        format: int64
+                        type: integer
+                      migration:
+                        description: Migrate data from existing server
+                        properties:
+                          dbname:
+                            description: Database name for bootstrapping the initial
+                              connection
+                            type: string
+                          host:
+                            description: Hostname or IP address of the server where
+                              to migrate data from
+                            type: string
+                          ignoreDbs:
+                            description: Comma-separated list of databases, which
+                              should be ignored during migration (supported by MySQL
+                              only at the moment)
+                            type: string
+                          port:
+                            description: Port number of the server where to migrate
+                              data from
+                            format: int64
+                            type: integer
+                          ssl:
+                            description: The server where to migrate data from is
+                              secured with SSL
+                            type: boolean
+                          username:
+                            description: User name for authentication with the server
+                              where to migrate data from
+                            type: string
+                        type: object
+                      pgPartmanBgwInterval:
+                        description: pg_partman_bgw.interval
+                        format: int64
+                        type: integer
+                      pgPartmanBgwRole:
+                        description: pg_partman_bgw.role
+                        type: string
+                      pgReadReplica:
+                        description: Should the service which is being forked be a
+                          read replica
+                        type: boolean
+                      pgServiceToForkFrom:
+                        description: Name of the PG Service from which to fork (deprecated,
+                          use service_to_fork_from). This has effect only when a new
+                          service is being created.
+                        type: string
+                      pgStatStatementsTrack:
+                        description: pg_stat_statements.track
+                        type: string
+                      pgbouncer:
+                        description: PGBouncer connection pooling settings
+                        properties:
+                          autodbIdleTimeout:
+                            description: If the automatically created database pools
+                              have been unused this many seconds, they are freed.
+                              If 0 then timeout is disabled. [seconds]
+                            format: int64
+                            type: integer
+                          autodbMaxDbConnections:
+                            description: Do not allow more than this many server connections
+                              per database (regardless of user). Setting it to 0 means
+                              unlimited.
+                            format: int64
+                            type: integer
+                          autodbPoolMode:
+                            description: PGBouncer pool mode
+                            type: string
+                          autodbPoolSize:
+                            description: If non-zero then create automatically a pool
+                              of that size per user when a pool doesn't exist.
+                            format: int64
+                            type: integer
+                          ignoreStartupParameters:
+                            description: List of parameters to ignore when given in
+                              startup packet
+                            items:
+                              type: string
+                            maxItems: 32
+                            type: array
+                          minPoolSize:
+                            description: Add more server connections to pool if below
+                              this number. Improves behavior when usual load comes
+                              suddenly back after period of total inactivity. The
+                              value is effectively capped at the pool size.
+                            format: int64
+                            type: integer
+                          serverIdleTimeout:
+                            description: If a server connection has been idle more
+                              than this many seconds it will be dropped. If 0 then
+                              timeout is disabled. [seconds]
+                            format: int64
+                            type: integer
+                          serverLifetime:
+                            description: The pooler will close an unused server connection
+                              that has been connected longer than this. [seconds]
+                            format: int64
+                            type: integer
+                          serverResetQueryAlways:
+                            description: Run server_reset_query (DISCARD ALL) in all
+                              pooling modes
+                            type: boolean
+                        type: object
+                      pglookout:
+                        description: PGLookout settings
+                        properties:
+                          maxFailoverReplicationTimeLag:
+                            description: max_failover_replication_time_lag
+                            format: int64
+                            type: integer
+                        type: object
+                      publicAccess:
+                        description: Public Access
+                        type: boolean
+                      sharedBuffersPercentage:
+                        description: shared_buffers_percentage
+                        format: double
+                        type: number
+                      synchronousReplication:
+                        description: Synchronous replication type. Note that the service
+                          plan also needs to support synchronous replication.
+                        type: string
+                      tempFileLimit:
+                        description: temp_file_limit
+                        format: int64
+                        type: integer
+                      timescaledb:
+                        description: TimescaleDB extension configuration values
+                        properties:
+                          maxBackgroundWorkers:
+                            description: timescaledb.max_background_workers
+                            format: int64
+                            type: integer
+                        type: object
+                      timezone:
+                        description: timezone
+                        type: string
+                      trackActivityQuerySize:
+                        description: track_activity_query_size
+                        format: int64
+                        type: integer
+                      trackCommitTimestamp:
+                        description: track_commit_timestamp
+                        type: string
+                      trackFunctions:
+                        description: track_functions
+                        type: string
+                      trackIoTiming:
+                        description: track_io_timing
+                        type: string
+                      variant:
+                        description: Variant of the PostgreSQL service, may affect
+                          the features that are exposed by default
+                        type: string
+                      version:
+                        description: PostgreSQL major version
+                        type: string
+                      walSenderTimeout:
+                        description: wal_sender_timeout
+                        format: int64
+                        type: integer
+                      walWriterDelay:
+                        description: wal_writer_delay
+                        format: int64
+                        type: integer
+                      workMem:
+                        description: work_mem
+                        format: int64
+                        type: integer
+                    type: object
+                  serviceHost:
+                    description: Hostname to the service instance
+                    type: string
+                  servicePort:
+                    description: Port to the service instance
+                    type: string
+                  serviceUsername:
+                    description: Primary username to the service instance
+                    type: string
+                  sslmode:
+                    description: SSL Connection Mode for PostgreSQL
+                    type: string
+                  state:
+                    description: State of the service
+                    type: string
+                  title:
+                    description: Title of a managed database instance
+                    type: string
+                  type:
+                    description: Type of the service
+                    type: string
+                  zone:
+                    description: Zone where the instance resides
+                    type: string
+                required:
+                - name
+                - plan
+                - zone
+                type: object
+              terminationPolicy:
+                enum:
+                - Delete
+                - DoNotTerminate
+                type: string
+              updatePolicy:
+                enum:
+                - Destroy
+                - DoNotDestroy
+                type: string
+            required:
+            - providerRef
+            - resource
+            type: object
+          status:
+            properties:
+              conditions:
+                items:
+                  properties:
+                    lastTransitionTime:
+                      description: Last time the condition transitioned from one status
+                        to another. This should be when the underlying condition changed.  If
+                        that is not known, then using the time when the API field
+                        changed is acceptable.
+                      format: date-time
+                      type: string
+                    message:
+                      description: A human readable message indicating details about
+                        the transition. This field may be empty.
+                      type: string
+                    observedGeneration:
+                      description: If set, this represents the .metadata.generation
+                        that the condition was set based upon. For instance, if .metadata.generation
+                        is currently 12, but the .status.condition[x].observedGeneration
+                        is 9, the condition is out of date with respect to the current
+                        state of the instance.
+                      format: int64
+                      type: integer
+                    reason:
+                      description: The reason for the condition's last transition
+                        in CamelCase. The specific API may choose whether or not this
+                        field is considered a guaranteed API. This field may not be
+                        empty.
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, Unknown.
+                      type: string
+                    type:
+                      description: Type of condition in CamelCase or in foo.example.com/CamelCase.
+                        Many .condition.type values are consistent across resources
+                        like Available, but because arbitrary conditions can be useful
+                        (see .node.status.conditions), the ability to deconflict is
+                        important.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - message
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              observedGeneration:
+                description: Resource generation, which is updated on mutation by
+                  the API Server.
+                format: int64
+                type: integer
+              phase:
+                description: Status defines the set of statuses a resource can have.
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}

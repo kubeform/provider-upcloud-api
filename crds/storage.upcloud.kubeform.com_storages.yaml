@@ -58,7 +58,18 @@ spec:
               resource:
                 properties:
                   backupRule:
-                    description: The criteria to backup the storage
+                    description: "The criteria to backup the storage \t\tPlease keep
+                      in mind that it's not possible to have a server with backup_rule
+                      attached to a server with simple_backup specified. \t\tSuch
+                      configurations will throw errors during execution. \t\tAlso,
+                      due to how UpCloud API works with simple backups and how Terraform
+                      orders the update operations, \t\tit is advised to never switch
+                      between simple_backup on the server and individual storages
+                      backup_rules in one apply. \t\tIf you want to switch from using
+                      server simple backup to per-storage defined backup rules, \t\tplease
+                      first remove simple_backup block from a server, run 'terraform
+                      apply', \t\tthen add 'backup_rule' to desired storages and run
+                      'terraform apply' again."
                     properties:
                       interval:
                         description: The weekday when the backup is created
@@ -136,7 +147,18 @@ spec:
               state:
                 properties:
                   backupRule:
-                    description: The criteria to backup the storage
+                    description: "The criteria to backup the storage \t\tPlease keep
+                      in mind that it's not possible to have a server with backup_rule
+                      attached to a server with simple_backup specified. \t\tSuch
+                      configurations will throw errors during execution. \t\tAlso,
+                      due to how UpCloud API works with simple backups and how Terraform
+                      orders the update operations, \t\tit is advised to never switch
+                      between simple_backup on the server and individual storages
+                      backup_rules in one apply. \t\tIf you want to switch from using
+                      server simple backup to per-storage defined backup rules, \t\tplease
+                      first remove simple_backup block from a server, run 'terraform
+                      apply', \t\tthen add 'backup_rule' to desired storages and run
+                      'terraform apply' again."
                     properties:
                       interval:
                         description: The weekday when the backup is created

@@ -77,13 +77,11 @@ spec:
                         destinationPortEnd:
                           description: The destination port range ends from this port
                             number
-                          format: int64
-                          type: integer
+                          type: string
                         destinationPortStart:
                           description: The destination port range starts from this
                             port number
-                          format: int64
-                          type: integer
+                          type: string
                         direction:
                           description: The direction of network traffic this rule
                             will be applied to
@@ -105,13 +103,11 @@ spec:
                           type: string
                         sourcePortEnd:
                           description: The source port range ends from this port number
-                          format: int64
-                          type: integer
+                          type: string
                         sourcePortStart:
                           description: The source port range starts from this port
                             number
-                          format: int64
-                          type: integer
+                          type: string
                       required:
                       - action
                       - direction
@@ -151,13 +147,11 @@ spec:
                         destinationPortEnd:
                           description: The destination port range ends from this port
                             number
-                          format: int64
-                          type: integer
+                          type: string
                         destinationPortStart:
                           description: The destination port range starts from this
                             port number
-                          format: int64
-                          type: integer
+                          type: string
                         direction:
                           description: The direction of network traffic this rule
                             will be applied to
@@ -179,13 +173,11 @@ spec:
                           type: string
                         sourcePortEnd:
                           description: The source port range ends from this port number
-                          format: int64
-                          type: integer
+                          type: string
                         sourcePortStart:
                           description: The source port range starts from this port
                             number
-                          format: int64
-                          type: integer
+                          type: string
                       required:
                       - action
                       - direction

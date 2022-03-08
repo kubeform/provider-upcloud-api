@@ -24,6 +24,8 @@ import (
 	fakefirewallv1alpha1 "kubeform.dev/provider-upcloud-api/client/clientset/versioned/typed/firewall/v1alpha1/fake"
 	floatingv1alpha1 "kubeform.dev/provider-upcloud-api/client/clientset/versioned/typed/floating/v1alpha1"
 	fakefloatingv1alpha1 "kubeform.dev/provider-upcloud-api/client/clientset/versioned/typed/floating/v1alpha1/fake"
+	managedv1alpha1 "kubeform.dev/provider-upcloud-api/client/clientset/versioned/typed/managed/v1alpha1"
+	fakemanagedv1alpha1 "kubeform.dev/provider-upcloud-api/client/clientset/versioned/typed/managed/v1alpha1/fake"
 	networkv1alpha1 "kubeform.dev/provider-upcloud-api/client/clientset/versioned/typed/network/v1alpha1"
 	fakenetworkv1alpha1 "kubeform.dev/provider-upcloud-api/client/clientset/versioned/typed/network/v1alpha1/fake"
 	objectv1alpha1 "kubeform.dev/provider-upcloud-api/client/clientset/versioned/typed/object/v1alpha1"
@@ -99,6 +101,11 @@ func (c *Clientset) FirewallV1alpha1() firewallv1alpha1.FirewallV1alpha1Interfac
 // FloatingV1alpha1 retrieves the FloatingV1alpha1Client
 func (c *Clientset) FloatingV1alpha1() floatingv1alpha1.FloatingV1alpha1Interface {
 	return &fakefloatingv1alpha1.FakeFloatingV1alpha1{Fake: &c.Fake}
+}
+
+// ManagedV1alpha1 retrieves the ManagedV1alpha1Client
+func (c *Clientset) ManagedV1alpha1() managedv1alpha1.ManagedV1alpha1Interface {
+	return &fakemanagedv1alpha1.FakeManagedV1alpha1{Fake: &c.Fake}
 }
 
 // NetworkV1alpha1 retrieves the NetworkV1alpha1Client
